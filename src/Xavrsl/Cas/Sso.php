@@ -217,6 +217,11 @@ class Sso {
         return phpCAS::getAttributes();
     }
 
+    public function id()
+    {
+        return $this->getAttributes()['userId'];
+    }
+
     /**
      * This method is used to logout from CAS
      *
