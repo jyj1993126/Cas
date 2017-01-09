@@ -23,7 +23,9 @@ class Sso {
     function __construct($config)
     {
         $this->config = $config;
-        $this->initializeCas();
+        if(!$this->isPretending()) {
+            $this->initializeCas();
+        }
     }
 
     /**
@@ -54,6 +56,8 @@ class Sso {
         {
             $path = (gettype($debug) == 'string') ? $debug : '';
             phpCAS::setDebug($path);
+            // https://github.com/Jasig/phpCAS/commit/bb382f5038f6241c7c577fb55430ad505f1f6e23
+            phpCAS::setVerbose(true);
         }
     }
 
@@ -71,7 +75,7 @@ class Sso {
         phpCAS::$method(
             !$this->config['cas_saml'] ? CAS_VERSION_2_0 : SAML_VERSION_1_1,
             $this->config['cas_hostname'],
-            $this->config['cas_port'],
+            (integer) $this->config['cas_port'],
             $this->config['cas_uri']
         );
     }
