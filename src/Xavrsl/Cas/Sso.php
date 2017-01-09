@@ -143,12 +143,25 @@ class Sso {
 
         try
         {
+            phpCAS::setFixedServiceURL((string) \Session::previousUrl());
             phpCAS::forceAuthentication();
         }
         catch(\Exception $e)
         {
             throw new CasAuthenticationException;
         }
+    }
+
+
+    /**
+     * @param string $redirect
+     *
+     * @return string
+     */
+    public function authenticateUrl($redirect = '')
+    {
+        phpCAS::setFixedServiceURL($redirect);
+        return phpCAS::getServerLoginURL();
     }
 
     /**
