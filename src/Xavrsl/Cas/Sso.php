@@ -143,7 +143,6 @@ class Sso {
 
         try
         {
-            phpCAS::setFixedServiceURL((string) \Session::previousUrl());
             phpCAS::forceAuthentication();
         }
         catch(\Exception $e)
